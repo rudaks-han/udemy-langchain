@@ -5,6 +5,7 @@ name = "pypi"
 
 [packages]
 langchain = "==0.0.352"
+langchain-openai = "==0.1.6"
 openai = "==0.27.8"
 python-dotenv = "==1.0.0"
 
