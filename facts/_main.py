@@ -8,28 +8,19 @@ load_dotenv()
 
 embeddings = OpenAIEmbeddings()
 
-emb = embeddings.embed_query("hi there")
+emb = embeddings.embed_query("Hi there")
 
 # print(emb)
-text_splitter = CharacterTextSplitter(
-    separator="\n",
-    chunk_size=200, # 문자를 200자로 짜른다
-    chunk_overlap=0
-)
+text_splitter = CharacterTextSplitter(separator="\n", chunk_size=200, chunk_overlap=100)
 
 loader = TextLoader("facts.txt")
-docs = loader.load_and_split(
-    text_splitter=text_splitter
-)
+docs = loader.load_and_split(text_splitter=text_splitter)
 
-db = Chroma.from_documents(
-    docs,
-    embedding=embeddings,
-    persist_directory="emb"
-)
+db = Chroma.from_documents(docs, embedding=embeddings, persist_directory="emb")
 
 results = db.similarity_search_with_score(
-    "What is an interesting fact about the English language?"
+    "What is and interesting fact about the English language?",
+    # k=2
 )
 
 for result in results:
@@ -41,4 +32,3 @@ for result in results:
 # for doc in docs:
 #     print(doc.page_content)
 #     print("\n")
-
